@@ -1,0 +1,32 @@
+name: Sync Safar-Dev into August-Development
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  merge-safar-dev:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: August-Development
+          fetch-depth: 0
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch Safar-Dev from SAFAR1119/Pawtato-API
+        run: git fetch https://github.com/SAFAR1119/Pawtato-API.git Safar-Dev:safar-dev
+
+      - name: Merge Safar-Dev into August-Development
+        run: |
+          git merge --no-ff safar-dev -m "chore: merge Safar-Dev into August-Development [ci]"
+          git push origin August-Development

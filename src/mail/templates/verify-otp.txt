@@ -1,0 +1,11 @@
+Hi {{name}} — confirm it's you.
+
+Enter this code to verify your email and activate your Pawtato account:
+
+{{otp}}
+
+This code expires in {{expiresIn}}. Don't share it with anyone — Pawtato staff will never ask for it.
+
+Didn't request this? Ignore this email and nothing happens.
+
+Pawtato · Dhanmondi, Dhaka · {{supportEmail}}

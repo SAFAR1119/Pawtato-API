@@ -1,0 +1,6 @@
+export enum TagOrderStatus {
+  PENDING_PAYMENT = 'PENDING_PAYMENT',
+  PAID = 'PAID',
+  FULFILLED = 'FULFILLED',
+  CANCELLED = 'CANCELLED',
+}

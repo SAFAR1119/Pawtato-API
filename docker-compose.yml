@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+  mongodb:
+    image: mongo:8
+    container_name: pawtato-mongodb
+
+    restart: unless-stopped
+
+    ports:
+      - "27017:27017"
+
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+
+    volumes:
+      - mongodb_data:/data/db
+
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pawtato-api
+    restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      MONGO_URI: mongodb://admin:password@mongodb:27017/pawtato?authSource=admin
+    volumes:
+      - uploads_data:/app/uploads
+    profiles:
+      - full
+
+volumes:
+  mongodb_data:
+  uploads_data:
